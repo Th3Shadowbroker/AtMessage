@@ -1,0 +1,13 @@
+name: AtMessage
+version: 1.0.0
+description: AtMessage is a new way to whisper
+author: Th3Shadowbroker
+website: http://crafter629.de
+main: com.th3shadowbroker.AtMessage.main
+load: POSTWORLD
+
+commands:
+     amsg:
+        description: Reload config or get the installed version
+        usage: '/amsg [reload]'
+        permission: AMsg.admin
