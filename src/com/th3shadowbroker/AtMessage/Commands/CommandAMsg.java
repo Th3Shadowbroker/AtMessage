@@ -66,7 +66,7 @@ public class CommandAMsg implements CommandExecutor {
                     }
                     
                   //No permission  
-                } else { p.sendMessage( plugin.PluginPrefix + ChatColor.RED + "You don't have permission to do that!" ); }
+                } else { p.sendMessage( plugin.PluginPrefix + ChatColor.RED + "You don't have permission to do that !" ); }
             }
             
             
