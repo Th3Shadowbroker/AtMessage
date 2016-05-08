@@ -2,10 +2,8 @@ package com.th3shadowbroker.AtMessage.Updater;
 
 import com.th3shadowbroker.AtMessage.main;
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import org.bukkit.entity.Player;
 
 public class GitHubUpdater {
@@ -31,25 +29,16 @@ public class GitHubUpdater {
     public boolean updateAvailable()
     {
         try {
+        
+            URL sourceURL = new URL( this.versionSource );
+            InputStreamReader stream = new InputStreamReader( sourceURL.openConnection().getInputStream() );
+            BufferedReader br = new BufferedReader( stream );
+            this.onlineVersion = br.readLine();
             
-            URL versionSource = new URL( this.versionSource );
-            URLConnection connection = versionSource.openConnection();
-            BufferedReader requestedString = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
-            
-            if ( requestedString.readLine() != null )
+            if ( !localVersion.equals( this.onlineVersion ) )
             {
-                this.onlineVersion = requestedString.readLine();
                 
-                if ( ! localVersion.equals( onlineVersion ) )
-                {
-                    System.out.println( onlineVersion );
-                    return true;
-                    
-                } else {
-                    
-                    return false;
-                    
-                }
+                return true;
                 
             } else {
                 
@@ -57,11 +46,11 @@ public class GitHubUpdater {
                 
             }
             
-        } catch ( Exception ex ) {
+        } catch ( Exception ex ) { 
             
-            ex.printStackTrace();
-            return false;
-            
+            ex.printStackTrace(); 
+            return false; 
+        
         }
     }
  
@@ -73,13 +62,13 @@ public class GitHubUpdater {
         {
             
             //Send TRUE notification
-            System.out.println( plugin.ConsolePrefix + "A new version of @Message is available." );
+            System.out.println( plugin.ConsolePrefix + "A new version of @Message is available..." );
             System.out.println( plugin.ConsolePrefix + "Check the plugin site on http://bit.ly/AtMessage" );
             
         } else {
             
             //Send FALSE notification
-            System.out.println( plugin.ConsolePrefix + "No updates available." );
+            System.out.println( plugin.ConsolePrefix + "No updates available..." );
             
         }
         
@@ -93,7 +82,22 @@ public class GitHubUpdater {
             
             p.sendMessage( plugin.PluginPrefix + "§2A new version of §9@Message§2 is available." );
             
-            p.sendMessage( plugin.PluginPrefix + "Check the plugin site on http://bit.ly/AtMessage" );
+            p.sendMessage( plugin.PluginPrefix + "§2Check the plugin site on §9http://bit.ly/AtMessage" );
+            
+        }
+    }
+    
+    //Updates enabled ?
+    public boolean updateNotificationEnabled()
+    {
+        if ( plugin.config.getBoolean("CheckForUpdates") == true )
+        {
+            
+            return true;
+            
+        } else {
+            
+            return false;
             
         }
     }

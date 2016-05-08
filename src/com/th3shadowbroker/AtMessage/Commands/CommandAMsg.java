@@ -47,7 +47,6 @@ public class CommandAMsg implements CommandExecutor {
                         {
                             
                             //If argument is reload
-                            plugin.saveConfig();
                             plugin.reloadConfig();
                             p.sendMessage( plugin.PluginPrefix + ChatColor.GREEN + "Config reloaded successfully" );
                          

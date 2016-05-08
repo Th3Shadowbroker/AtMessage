@@ -15,6 +15,8 @@ public class Config {
         this.plugin = plugin;
         this.config = plugin.getConfig();
         
+        plugin.config = plugin.getConfig();
+        
         loadDefaults();
         
     }
@@ -25,6 +27,8 @@ public class Config {
         
         config.addDefault("ChatPrefix", "&e[@Message]");
         config.addDefault("ConsolePrefix", "[@Message]");
+        
+        config.addDefault("CheckForUpdates", true);
         
         config.addDefault("MessageColor","&5");
         config.addDefault("MessageSeparator","►");

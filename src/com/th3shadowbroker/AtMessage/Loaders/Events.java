@@ -1,5 +1,6 @@
 package com.th3shadowbroker.AtMessage.Loaders;
 
+import com.th3shadowbroker.AtMessage.Events.UpdateNotification;
 import com.th3shadowbroker.AtMessage.Events.WhisperMessage;
 import com.th3shadowbroker.AtMessage.main;
 
@@ -23,6 +24,7 @@ public class Events {
         try {
             
             plugin.getServer().getPluginManager().registerEvents( new WhisperMessage(this) , plugin);
+            plugin.getServer().getPluginManager().registerEvents( new UpdateNotification(this) , plugin);
             
         } catch ( Exception ex ) {
             

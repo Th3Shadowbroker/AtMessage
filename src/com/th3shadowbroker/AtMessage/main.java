@@ -15,6 +15,8 @@ public class main extends JavaPlugin{
     public String ConsolePrefix;
     public FileConfiguration config;
     
+    public GitHubUpdater git;
+    
     //Load it up !
     @Override
     public void onEnable()
@@ -85,15 +87,14 @@ public class main extends JavaPlugin{
     //Load updater
     private void loadUpdater()
     {
-        GitHubUpdater updater = new GitHubUpdater( this , "https://raw.githubusercontent.com/Th3Shadowbroker/AtMessage/master/CurrentVersion.update" );
         
-        if ( updater.updateAvailable() )
+        this.git = new GitHubUpdater( this , "https://raw.githubusercontent.com/Th3Shadowbroker/AtMessage/master/CurrentVersion.txt" );
+        
+        if ( git.updateNotificationEnabled() )
         {
-            
-            updater.sendNotification();
-            
+            git.sendNotification();
         }
-        
+
     }
     
 }
