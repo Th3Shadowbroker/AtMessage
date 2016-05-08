@@ -5,6 +5,7 @@ import com.th3shadowbroker.AtMessage.Loaders.Config;
 import com.th3shadowbroker.AtMessage.Loaders.Events;
 import com.th3shadowbroker.AtMessage.Loaders.Hidendra;
 import com.th3shadowbroker.AtMessage.Loaders.Prefix;
+import com.th3shadowbroker.AtMessage.Updater.GitHubUpdater;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,6 +25,9 @@ public class main extends JavaPlugin{
         
         System.out.println( "[@Message] " + "Loading prefixes..." );
         loadLoaders(); //Load loader classes
+        
+        System.out.println( ConsolePrefix + "Loading updater..." );
+        loadUpdater();
         
         System.out.println( ConsolePrefix + "Loading events..." );
         loadEvents(); //Load event loaders
@@ -76,6 +80,20 @@ public class main extends JavaPlugin{
     private void loadMetrics()
     {
         Hidendra metricsLoader = new Hidendra( this );
+    }
+    
+    //Load updater
+    private void loadUpdater()
+    {
+        GitHubUpdater updater = new GitHubUpdater( this , "https://raw.githubusercontent.com/Th3Shadowbroker/AtMessage/master/CurrentVersion.update" );
+        
+        if ( updater.updateAvailable() )
+        {
+            
+            updater.sendNotification();
+            
+        }
+        
     }
     
 }
