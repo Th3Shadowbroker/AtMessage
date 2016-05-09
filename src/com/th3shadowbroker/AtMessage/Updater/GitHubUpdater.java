@@ -58,7 +58,7 @@ public class GitHubUpdater {
     public void sendNotification()
     {
         
-        if ( updateAvailable() )
+        if ( updateAvailable() == true )
         {
             
             //Send TRUE notification
