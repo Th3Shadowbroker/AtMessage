@@ -118,33 +118,44 @@ public class WhisperMessage implements Listener {
                
                 try {
                     
-                    MultipleTargets targets = new MultipleTargets( message[0] );
-                    
-                    String[] targetList = targets.getTargets();
-                    
-                    for ( int i = 0; i != targetList.length; i++ )
+                    if ( message.length > 1 )
                     {
-                        if ( Bukkit.getServer().getPlayer( targetList[i] ) != null )
+                        
+                        MultipleTargets targets = new MultipleTargets( message[0] );
+                    
+                        String[] targetList = targets.getTargets();
+
+                        for ( int i = 0; i != targetList.length; i++ )
                         {
-                            
-                            Player target = Bukkit.getPlayer( targetList[i] ); //Player's whisper target
+                            if ( Bukkit.getServer().getPlayer( targetList[i] ) != null )
+                            {
 
-                            CommandSuggestion target_cmdS = new CommandSuggestion( this.ToTarget.replaceAll( "TARGET" , player.getName() ) + this.Color + raw_message , "@" + player.getName() + " " ); 
-                            target_cmdS.sendToPlayer(target); //Send message to target
+                                Player target = Bukkit.getPlayer( targetList[i] ); //Player's whisper target
 
-                            CommandSuggestion sender_cmdS = new CommandSuggestion( this.ToSender.replaceAll( "TARGET" , target.getName() ) + this.Color + raw_message , "@" + target.getName() + " " );
-                            sender_cmdS.sendToPlayer(player); //Send message to sender
-                            
-                            e.setCancelled(true);
-                            
-                        }else {
+                                CommandSuggestion target_cmdS = new CommandSuggestion( this.ToTarget.replaceAll( "TARGET" , player.getName() ) + this.Color + raw_message , "@" + player.getName() + " " ); 
+                                target_cmdS.sendToPlayer(target); //Send message to target
 
-                            player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Player " + targetList[i] + " not found/online"); //If player is offline
-                            e.setCancelled(true);
-                            break;
-                            
+                                CommandSuggestion sender_cmdS = new CommandSuggestion( this.ToSender.replaceAll( "TARGET" , target.getName() ) + this.Color + raw_message , "@" + target.getName() + " " );
+                                sender_cmdS.sendToPlayer(player); //Send message to sender
+
+                                e.setCancelled(true);
+
+                            }else {
+
+                                player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Player " + targetList[i] + " not found/online"); //If player is offline
+                                e.setCancelled(true);
+                                break;
+
+                            }
                         }
+                        
+                    } else {
+
+                        player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Please use " + ChatColor.AQUA + "@<Player> <message>");
+                        e.setCancelled(true);
+
                     }
+                    
                     
                 } catch ( Exception ex ) {
                     
