@@ -2,6 +2,7 @@ package com.th3shadowbroker.AtMessage.Events;
 
 import com.th3shadowbroker.AtMessage.Loaders.Events;
 import com.th3shadowbroker.AtMessage.Objects.CommandSuggestion;
+import com.th3shadowbroker.AtMessage.Objects.MultipleTargets;
 import com.th3shadowbroker.AtMessage.main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -67,46 +68,94 @@ public class WhisperMessage implements Listener {
         if ( player.hasPermission( "AtMsg.use" ) )
         {
             
-            try{
+            if ( ! MultipleTargets.isMultiple( message[0] ) )
+            {
             
-                if ( message[0].startsWith("@") ) { //Check for requirements
+                try{
+            
+                        if ( message[0].startsWith("@") ) { //Check for requirements
 
-                    if ( Bukkit.getPlayer( message[0].replaceFirst("@", "") ) != null ) { //Try to get target
+                            if ( Bukkit.getPlayer( message[0].replaceFirst("@", "") ) != null ) //Try to get target
+                            { 
 
-                        if ( message.length > 1 ) {
+                                if ( message.length > 1 ) {
 
-                            Player target = Bukkit.getPlayer( message[0].replaceFirst("@", "") ); //Player's whisper target
+                                    Player target = Bukkit.getPlayer( message[0].replaceFirst("@", "") ); //Player's whisper target
+
+                                    CommandSuggestion target_cmdS = new CommandSuggestion( this.ToTarget.replaceAll( "TARGET" , player.getName() ) + this.Color + raw_message , "@" + player.getName() + " " ); 
+                                    target_cmdS.sendToPlayer(target); //Send message to target
+
+                                    CommandSuggestion sender_cmdS = new CommandSuggestion( this.ToSender.replaceAll( "TARGET" , target.getName() ) + this.Color + raw_message , "@" + target.getName() + " " );
+                                    sender_cmdS.sendToPlayer(player); //Send message to sender
+
+                                    e.setCancelled(true);
+
+                                } else {
+
+                                    player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Please use " + ChatColor.AQUA + "@<Player> <message>");
+                                    e.setCancelled(true);
+
+                                }
+
+                            } else {
+
+                                player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Player not found/online"); //If player is offline
+                                e.setCancelled(true);
+                            }
+
+                    }
+            
+                } catch ( Exception ex ) {
+
+                    //Something wrong happend ;(
+                    player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Something went wrong :(");
+                    player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Please use " + ChatColor.AQUA + "@<Player> <message>");
+                    e.setCancelled(true);
+                    
+                }
+                
+            } else { //Multiple targets given
+               
+                try {
+                    
+                    MultipleTargets targets = new MultipleTargets( message[0] );
+                    
+                    String[] targetList = targets.getTargets();
+                    
+                    for ( int i = 0; i != targetList.length; i++ )
+                    {
+                        if ( Bukkit.getServer().getPlayer( targetList[i] ) != null )
+                        {
+                            
+                            Player target = Bukkit.getPlayer( targetList[i] ); //Player's whisper target
 
                             CommandSuggestion target_cmdS = new CommandSuggestion( this.ToTarget.replaceAll( "TARGET" , player.getName() ) + this.Color + raw_message , "@" + player.getName() + " " ); 
                             target_cmdS.sendToPlayer(target); //Send message to target
 
                             CommandSuggestion sender_cmdS = new CommandSuggestion( this.ToSender.replaceAll( "TARGET" , target.getName() ) + this.Color + raw_message , "@" + target.getName() + " " );
                             sender_cmdS.sendToPlayer(player); //Send message to sender
-
+                            
                             e.setCancelled(true);
+                            
+                        }else {
 
-                        } else {
-
-                            player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Please use " + ChatColor.AQUA + "@<Player> <message>");
+                            player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Player " + targetList[i] + " not found/online"); //If player is offline
                             e.setCancelled(true);
-
+                            break;
+                            
                         }
-                    
-                    } else {
-
-                        player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Player not found/online"); //If player is offline
-                        e.setCancelled(true);
                     }
-
+                    
+                } catch ( Exception ex ) {
+                    
+                    //Something wrong happend ;(
+                    player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Something went wrong :(");
+                    player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Please use " + ChatColor.AQUA + "@<Player> <message>");
+                    e.setCancelled(true);
+                    
                 }
-            
-            } catch ( Exception ex ) {
-
-                //Something wrong happend ;(
-                player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Something went wrong :(");
-                player.sendMessage(plugin.PluginPrefix + ChatColor.RED + "Please use " + ChatColor.AQUA + "@<Player> <message>");
-                e.setCancelled(true);
-            }
+                
+            }//End of multiple targets
             
         } else {
             
