@@ -22,6 +22,8 @@ public class main extends JavaPlugin{
     public void onEnable()
     {
         
+        System.out.println( "[@Message] " + "Installed version: " + this.getDescription().getVersion() );
+        
         System.out.println( "[@Message] " + "Loading/Creating config file..." );
         loadConfig(); //Load/Create config-file
         
@@ -89,7 +91,7 @@ public class main extends JavaPlugin{
     {
         
         this.git = new GitHubUpdater( this , "https://raw.githubusercontent.com/Th3Shadowbroker/AtMessage/master/CurrentVersion.txt" );
-        
+
         if ( git.updateNotificationEnabled() )
         {
             git.sendNotification();
