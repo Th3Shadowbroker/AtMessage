@@ -36,6 +36,8 @@ public class Config {
         config.addDefault("MessageToSender", "&5[You SEPARATOR @TARGET]");
         config.addDefault("MessageToTarget", "&5[@TARGET SEPARATOR You]");
         
+        config.addDefault("MessageToSpectator", "&9[SENDER SEPARATOR TARGET]");
+        
         config.options().copyDefaults(true);
         
         plugin.saveConfig();

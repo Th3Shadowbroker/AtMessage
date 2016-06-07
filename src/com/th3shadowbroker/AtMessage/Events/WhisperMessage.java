@@ -1,5 +1,9 @@
 package com.th3shadowbroker.AtMessage.Events;
 
+import com.th3shadowbroker.AtMessage.Cache.AtMessagePlayer;
+import com.th3shadowbroker.AtMessage.Cache.PlayerState;
+import com.th3shadowbroker.AtMessage.Cache.SpectatorCache;
+import com.th3shadowbroker.AtMessage.Etc.AtMessageSendEvent;
 import com.th3shadowbroker.AtMessage.Loaders.Events;
 import com.th3shadowbroker.AtMessage.Objects.CommandSuggestion;
 import com.th3shadowbroker.AtMessage.Objects.MultipleTargets;
@@ -87,7 +91,34 @@ public class WhisperMessage implements Listener {
 
                                     CommandSuggestion sender_cmdS = new CommandSuggestion( this.ToSender.replaceAll( "TARGET" , target.getName() ) + this.Color + raw_message , "@" + target.getName() + " " );
                                     sender_cmdS.sendToPlayer(player); //Send message to sender
+                                                                       
+                                    Bukkit.getServer().getPluginManager().callEvent( new AtMessageSendEvent( player , target , this.Color + raw_message ) );
+                                    
+                                    //Send send message to spectators
+                                    try {
+                                        
+                                        SpectatorCache spectators = plugin.getSpecCache();
+                                    
+                                        for ( AtMessagePlayer spectator : spectators.getCachedPlayersWithState( PlayerState.SPECTATOR ) )
+                                        {
 
+                                            Player specPlayer = spectator.getPlayer();
+
+                                            specPlayer.sendMessage( plugin.PluginPrefix + plugin.getConfig().getString( "MessageToSpectator" ).replaceAll( "&" , "§" )
+                                                                                                                                               .replaceAll( "TARGET" , target.getName() )
+                                                                                                                                               .replaceAll( "SENDER" , player.getName() )
+                                                                                                                                               .replaceAll( "SEPARATOR" , plugin.getConfig().getString( "MessageSeparator" ) )
+                                            + this.Color + raw_message        
+                                            );
+
+                                        }
+                                        
+                                    }   catch   ( Exception ex )    {
+                                        
+                                        //Do nothing
+                                        
+                                    }
+                                    
                                     e.setCancelled(true);
 
                                 } else {
@@ -138,7 +169,34 @@ public class WhisperMessage implements Listener {
                                 CommandSuggestion sender_cmdS = new CommandSuggestion( this.ToSender.replaceAll( "TARGET" , target.getName() ) + this.Color + raw_message , "@" + target.getName() + " " );
                                 sender_cmdS.sendToPlayer(player); //Send message to sender
 
+                                //Send send message to spectators
+                                try {
+                                        
+                                        SpectatorCache spectators = plugin.getSpecCache();
+                                    
+                                        for ( AtMessagePlayer spectator : spectators.getCachedPlayersWithState( PlayerState.SPECTATOR ) )
+                                        {
+
+                                            Player specPlayer = spectator.getPlayer();
+
+                                            specPlayer.sendMessage( plugin.PluginPrefix + plugin.getConfig().getString( "MessageToSpectator" ).replaceAll( "&" , "§" )
+                                                                                                                                               .replaceAll( "TARGET" , target.getName() )
+                                                                                                                                               .replaceAll( "SENDER" , player.getName() )
+                                                                                                                                               .replaceAll( "SEPARATOR" , plugin.getConfig().getString( "MessageSeparator" ) )
+                                            + this.Color + raw_message        
+                                            );
+
+                                        }
+                                        
+                                }   catch   ( Exception ex )    {
+                                        
+                                        //Do nothing
+                                        
+                                }
+                                
                                 e.setCancelled(true);
+                                
+                                Bukkit.getServer().getPluginManager().callEvent( new AtMessageSendEvent( player , target , this.Color + raw_message ) );
 
                             }else {
 

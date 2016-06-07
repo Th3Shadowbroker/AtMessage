@@ -1,6 +1,7 @@
 package com.th3shadowbroker.AtMessage.Loaders;
 
 import com.th3shadowbroker.AtMessage.Commands.CommandAMsg;
+import com.th3shadowbroker.AtMessage.Commands.CommandSpectate;
 import com.th3shadowbroker.AtMessage.main;
 
 public class Commands {
@@ -23,6 +24,8 @@ public class Commands {
         try {
         
             plugin.getCommand("amsg").setExecutor( new CommandAMsg(this) );
+            
+            plugin.getCommand("spectate").setExecutor( new CommandSpectate(this) );
             
         } catch ( Exception ex ) {
             

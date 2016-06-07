@@ -1,5 +1,5 @@
 name: AtMessage
-version: 1.0.5
+version: 1.0.6
 description: AtMessage is a new way to whisper
 author: Th3Shadowbroker
 website: http://crafter629.de
@@ -11,3 +11,8 @@ commands:
         description: Reload config or get the installed version
         usage: '/amsg [reload]'
         permission: AMsg.admin
+     spectate:
+         description: Spectate other players AtMessage conversations
+         usage: '/spectate'
+         aliases: [spec, spy]
+         permission: AMsg.spectate

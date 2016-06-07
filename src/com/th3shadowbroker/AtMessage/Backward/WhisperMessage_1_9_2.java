@@ -1,5 +1,6 @@
 package com.th3shadowbroker.AtMessage.Backward;
 
+import com.th3shadowbroker.AtMessage.Etc.AtMessageSendEvent;
 import com.th3shadowbroker.AtMessage.Loaders.Events;
 import com.th3shadowbroker.AtMessage.Objects.MultipleTargets;
 import com.th3shadowbroker.AtMessage.main;
@@ -87,6 +88,8 @@ public class WhisperMessage_1_9_2 implements Listener {
                                     CommandSuggestion_1_9_2 sender_cmdS = new CommandSuggestion_1_9_2( this.ToSender.replaceAll( "TARGET" , target.getName() ) + this.Color + raw_message , "@" + target.getName() + " " );
                                     sender_cmdS.sendToPlayer(player); //Send message to sender
 
+                                    Bukkit.getServer().getPluginManager().callEvent( new AtMessageSendEvent( player , target , this.Color + raw_message ) );
+                                    
                                     e.setCancelled(true);
 
                                 } else {
@@ -136,6 +139,8 @@ public class WhisperMessage_1_9_2 implements Listener {
 
                                 CommandSuggestion_1_9_2 sender_cmdS = new CommandSuggestion_1_9_2( this.ToSender.replaceAll( "TARGET" , target.getName() ) + this.Color + raw_message , "@" + target.getName() + " " );
                                 sender_cmdS.sendToPlayer(player); //Send message to sender
+                                
+                                Bukkit.getServer().getPluginManager().callEvent( new AtMessageSendEvent( player , target , this.Color + raw_message ) );
 
                                 e.setCancelled(true);
 

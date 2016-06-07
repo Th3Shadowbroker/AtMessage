@@ -1,11 +1,15 @@
 package com.th3shadowbroker.AtMessage;
 
+import com.th3shadowbroker.AtMessage.Cache.AtMessagePlayer;
+import com.th3shadowbroker.AtMessage.Cache.SpectatorCache;
 import com.th3shadowbroker.AtMessage.Loaders.Commands;
 import com.th3shadowbroker.AtMessage.Loaders.Config;
 import com.th3shadowbroker.AtMessage.Loaders.Events;
 import com.th3shadowbroker.AtMessage.Loaders.Hidendra;
 import com.th3shadowbroker.AtMessage.Loaders.Prefix;
 import com.th3shadowbroker.AtMessage.Updater.GitHubUpdater;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,16 +17,34 @@ public class main extends JavaPlugin{
     
     public String PluginPrefix;
     public String ConsolePrefix;
+    
+    private static main instance;
+
+    private SpectatorCache spectatorCache;
+    
     public FileConfiguration config;
     
     public GitHubUpdater git;
+    
     
     //Load it up !
     @Override
     public void onEnable()
     {
         
-        System.out.println( "[@Message] " + "Installed version: " + this.getDescription().getVersion() );
+        instance = this;
+        spectatorCache = new SpectatorCache();
+        
+//        try {
+//            
+//            OfflinePlayer testPlayer = Bukkit.getOfflinePlayer("Mataiori");
+//            spectatorCache.createCacheEntry( new AtMessagePlayer( testPlayer.getPlayer() ) );
+//            
+//        } catch ( Exception ex ) {
+//            
+//            ex.printStackTrace();
+//            
+//        }
         
         System.out.println( "[@Message] " + "Loading/Creating config file..." );
         loadConfig(); //Load/Create config-file
@@ -97,6 +119,22 @@ public class main extends JavaPlugin{
             git.sendNotification();
         }
 
+    }
+    
+    //Get current instance
+    public static main getInstance()
+    {
+        
+        return instance;
+        
+    }
+    
+    //Get the current instances spectator cache
+    public SpectatorCache getSpecCache()
+    {
+        
+        return spectatorCache;
+        
     }
     
 }
