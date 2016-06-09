@@ -1,6 +1,5 @@
 package com.th3shadowbroker.AtMessage;
 
-import com.th3shadowbroker.AtMessage.Cache.AtMessagePlayer;
 import com.th3shadowbroker.AtMessage.Cache.SpectatorCache;
 import com.th3shadowbroker.AtMessage.Loaders.Commands;
 import com.th3shadowbroker.AtMessage.Loaders.Config;
@@ -8,8 +7,6 @@ import com.th3shadowbroker.AtMessage.Loaders.Events;
 import com.th3shadowbroker.AtMessage.Loaders.Hidendra;
 import com.th3shadowbroker.AtMessage.Loaders.Prefix;
 import com.th3shadowbroker.AtMessage.Updater.GitHubUpdater;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,18 +31,7 @@ public class main extends JavaPlugin{
         
         instance = this;
         spectatorCache = new SpectatorCache();
-        
-//        try {
-//            
-//            OfflinePlayer testPlayer = Bukkit.getOfflinePlayer("Mataiori");
-//            spectatorCache.createCacheEntry( new AtMessagePlayer( testPlayer.getPlayer() ) );
-//            
-//        } catch ( Exception ex ) {
-//            
-//            ex.printStackTrace();
-//            
-//        }
-        
+
         System.out.println( "[@Message] " + "Loading/Creating config file..." );
         loadConfig(); //Load/Create config-file
         
@@ -127,6 +113,12 @@ public class main extends JavaPlugin{
         
         return instance;
         
+    }
+    
+    //Is Debugmode active ?
+    public boolean debugModeIsEnabled()
+    {
+        return this.config.getBoolean( "DebugMode" );
     }
     
     //Get the current instances spectator cache

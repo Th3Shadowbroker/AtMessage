@@ -38,24 +38,17 @@ public class SpectatorCache
     //Remove an existing entry from cache
     public void removeCacheEntry( AtMessagePlayer p ) throws NotInCacheException
     {
-        
-        if ( CachedPlayers.contains( p ) )
-        {
-            
+
             for( AtMessagePlayer player : CachedPlayers )
             {
                 if ( player.getUUID().equals( p.getUUID() ) )
                 {
                     CachedPlayers.remove( player );
-                    break;
+                    return;
                 }
             }
-            
-        }   else    {
-            
+  
             throw new NotInCacheException();
-            
-        }
         
     }
     

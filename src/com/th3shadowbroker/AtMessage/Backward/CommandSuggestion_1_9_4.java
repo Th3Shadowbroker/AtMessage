@@ -1,19 +1,19 @@
-package com.th3shadowbroker.AtMessage.Objects;
+package com.th3shadowbroker.AtMessage.Backward;
 
-import net.minecraft.server.v1_10_R1.IChatBaseComponent;
-import net.minecraft.server.v1_10_R1.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import net.minecraft.server.v1_9_R2.IChatBaseComponent;
+import net.minecraft.server.v1_9_R2.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_9_R2.PacketPlayOutChat;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-public class CommandSuggestion {
+public class CommandSuggestion_1_9_4 {
     
     protected String message = "";
     protected String action = "";
     protected String m = "\"";
     
     //Construction
-    public CommandSuggestion(String message, String command)
+    public CommandSuggestion_1_9_4(String message, String command)
     {
         
         this.message = "{\"text\":\"%MSG% \",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"%CMD%\"}}";

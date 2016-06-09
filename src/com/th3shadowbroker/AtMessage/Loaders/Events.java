@@ -5,8 +5,8 @@ import com.th3shadowbroker.AtMessage.Events.AddToCache;
 import com.th3shadowbroker.AtMessage.Events.RemoveFromCache;
 import com.th3shadowbroker.AtMessage.Events.UpdateNotification;
 import com.th3shadowbroker.AtMessage.Events.WhisperMessage;
+import com.th3shadowbroker.AtMessage.Backward.WhisperMessage_1_9_4;
 import com.th3shadowbroker.AtMessage.Objects.ServerVersionCheck;
-import com.th3shadowbroker.AtMessage.Objects.ServerVersionCheck.ServerVersion;
 import com.th3shadowbroker.AtMessage.main;
 
 public class Events {
@@ -24,21 +24,37 @@ public class Events {
     }
     
     //LoadUp sequence
+    @SuppressWarnings("SuspiciousIndentAfterControlStatement")
     private void registerEvents()
     {
         try {
             
+            if ( null != ServerVersionCheck.getCurrentVersion() ) 
             //Setup the AtMessage-Message listener
-            if ( ServerVersionCheck.getCurrentVersion() == ServerVersion.R1 ) //If version is 1.9.2
-            {
+            switch (ServerVersionCheck.getCurrentVersion()) {
+            
+
+                case SERVER_1_9_2:
+                    
+                    plugin.getServer().getPluginManager().registerEvents( new WhisperMessage_1_9_2(this) , plugin);
+                    System.out.println( plugin.ConsolePrefix + "Backward compatibility activated for 1.9.2" );
+                    break;
                 
-                plugin.getServer().getPluginManager().registerEvents( new WhisperMessage_1_9_2(this) , plugin);
-                System.out.println( plugin.ConsolePrefix + "Backward compatibility activated for 1.9.2" );
-                
-            } else {                                                          //If version is 1.9.4
-                
-                plugin.getServer().getPluginManager().registerEvents( new WhisperMessage(this) , plugin);
-                
+                case SERVER_1_9_4: 
+                    
+                    plugin.getServer().getPluginManager().registerEvents(new WhisperMessage_1_9_4(this) , plugin);
+                    System.out.println( plugin.ConsolePrefix + "Backward compatibility activated for 1.9.4" );
+                    break;
+                    
+                case SERVER_1_10_0:
+                    
+                    plugin.getServer().getPluginManager().registerEvents( new WhisperMessage(this) , plugin);
+                    System.out.println( plugin.ConsolePrefix + "Hey! You are up to date that's awesome !" );
+                    break;
+                    
+                default:
+                    break;
+                    
             }
             
             //Send update notification if update is available

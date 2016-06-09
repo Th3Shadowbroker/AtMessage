@@ -36,7 +36,17 @@ public class RemoveFromCache implements Listener {
             
             cache.removeCacheEntry( new AtMessagePlayer(ev.getPlayer()) );
             
+            if ( plugin.debugModeIsEnabled() )
+            {
+                System.out.println( plugin.ConsolePrefix + "Player " + ev.getPlayer().getUniqueId().toString() + " removed from cache!" );
+            }
+            
         }   catch( NotInCacheException ex ) {
+            
+            if ( plugin.debugModeIsEnabled() )
+            {
+               System.out.println( plugin.ConsolePrefix + "Trying to remove player " + ev.getPlayer().getUniqueId().toString() + " from cache!" );
+            }
             
             System.out.println( plugin.ConsolePrefix + "Error while caching !" );
             

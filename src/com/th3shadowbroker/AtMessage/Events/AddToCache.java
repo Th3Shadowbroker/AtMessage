@@ -39,6 +39,11 @@ public class AddToCache implements Listener {
             
             cache.createCacheEntry( new AtMessagePlayer( p ) );
             
+            if ( plugin.debugModeIsEnabled() )
+            {
+                System.out.println( plugin.ConsolePrefix + "Player " + p.getUniqueId().toString() + " loaded to cache !" );
+            }
+            
         } catch (AlreadyInCacheException ex) {
             
             System.out.println( plugin.ConsolePrefix + "Error while caching !" );

@@ -29,6 +29,7 @@ public class Config {
         config.addDefault("ConsolePrefix", "[@Message]");
         
         config.addDefault("CheckForUpdates", true);
+        config.addDefault("DebugMode", false);
         
         config.addDefault("MessageColor","&5");
         config.addDefault("MessageSeparator","►");
