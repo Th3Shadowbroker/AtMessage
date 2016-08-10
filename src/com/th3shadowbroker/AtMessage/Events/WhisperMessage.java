@@ -66,7 +66,7 @@ public class WhisperMessage implements Listener {
     {
      
         String[] message = e.getMessage().split(" "); //Message in arguments
-        String raw_message = e.getMessage().replaceAll( message[0] , "" ); //Message without @<Playername>
+        String raw_message = String.valueOf( e.getMessage().replaceAll( message[0] , "" ) ); //Message without @<Playername>
         Player player = e.getPlayer(); //Message sender
         
         if ( player.hasPermission( "AtMsg.use" ) )
