@@ -228,8 +228,9 @@ public class WhisperMessage implements Listener {
             
         } else {
             
-            player.sendMessage( plugin.PluginPrefix + ChatColor.RED + "You don't have permission to do that !" );
-            e.setCancelled(true);
+            /*
+                DO NOTHING
+            */
             
         }
 
